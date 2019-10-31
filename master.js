@@ -401,7 +401,7 @@ for(var i = 0;i<localStorage.length;i++){
 }
 document.addEventListener("dblclick",function(e){
 var t = e.target
-if(t.id = "localstoragevalue"){
+if(t.id == "localstoragevalue"){
 if(t.contentEditable != "true"){
 t.contentEditable = "true";
 } else{
