@@ -583,4 +583,4 @@ Local Storage: ${JSON.stringify(localStorage)}
 
     document.getElementsByClassName("snowlord-devConsole-container-body-sources-scripts-reload")[0].click();
     document.getElementsByClassName('snowlord-devConsole-container-body-elements-container')[0].textContent = document.body.innerHTML.replace(/<\/\w+>/g, (e) => e + '\r\n');
-})
+})();
