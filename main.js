@@ -397,7 +397,7 @@
 	document.getElementById('snowlord-devConsole-localStorage').innerHTML = highlightJSON(localStorage);
 */
 for(var i = 0;i<localStorage.length;i++){
-	document.getElementById('snowlord-devConsole-localStorage').innerHTML = "key:"+`<div id="localstoragekey">`+localStorage.key(i)+`</div><br><div id="localstoragevalue" style="word-wrap:break-word;background-color:yellow;">` + localStorage.getItem(localStorage.key(i))+`</div>`;
+	document.getElementById('snowlord-devConsole-localStorage').innerHTML += "key:"+`<div id="localstoragekey">`+localStorage.key(i)+`</div><br><div id="localstoragevalue" style="word-wrap:break-word;background-color:yellow;">` + localStorage.getItem(localStorage.key(i))+`</div>`;
 }
 document.addEventListener("dblclick",function(e){
 var t = e.target
