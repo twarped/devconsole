@@ -77,7 +77,7 @@
 		
 		<div class="snowlord-devConsole-container-body-tools hidden">
 			<h3 style="border-bottom: 2px solid #000;">Tools</h3>
-            <h4>Local Storage</h4><div id="snowlord-devConsole-localStorage"></div>
+            <h4>Local Storage</h4><div id="snowlord-devConsole-localStorage" style="overflow-y:scroll"></div>
 		</div>
 		
 		<div class="snowlord-devConsole-container-body-settings hidden">
