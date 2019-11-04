@@ -406,7 +406,7 @@ if(t.contentEditable != "true"){
 t.contentEditable = "true";
 } else{
 t.contentEditable = "false";
-localStorage.setItem(t.previousElementSibling.textContent,t.textContent);
+localStorage.setItem(document.querySelector('#localstoragekey')[t].textContent,t.textContent);
 }
 }
 })
