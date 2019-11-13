@@ -289,7 +289,7 @@
 		flex-direction: column;
 		box-sizing: border-box;
 		transition: 0.2s;
-		position: sticky;
+		position: fixed;
 		height: 300px;
 		display: flex;
 		width: 100%;
