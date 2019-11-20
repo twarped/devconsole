@@ -24,10 +24,12 @@
 	</div>
 	
 	<div class="snowlord-devConsole-container-body">
-		<div class="snowlord-devConsole-container-body-elements hidden">
+		<div class="snowlord-devConsole-container-body-elements hidden" style="overflow-y:scroll;width:100%;height:250px;">
 			<h3 style="border-bottom: 2px solid #000;">Elements</h3>
-            <div class="snowlord-devConsole-container-body-elements-container" style="white-space: pre; width: 100%; height: 200px; overflow: scroll;">							
+						<div id="snowlord-devConsole-container-body-elements-container-head" style="white-space: pre; width: 100%; height: 200px; overflow: scroll;">
 						</div>
+						<div id="snowlord-devConsole-container-body-elements-container-body" style="white-space: pre; width: 100%; height: 200px; overflow: scroll;">
+						</div>		
 		</div>
 		
 		<div class="snowlord-devConsole-container-body-console hidden">
@@ -556,14 +558,33 @@ Local Storage: ${JSON.stringify(localStorage)}
             main.innerHTML += '<li><a onclick="alert(\'' + document.getElementsByTagName("meta")[i].content + '\');">' + (document.getElementsByTagName("meta")[i].name || document.getElementsByTagName("meta").property) + '</a></li>';
         }
     });
-		    var elements = document.getElementsByClassName('snowlord-devConsole-container-body-elements-container')[0];
-		elements.textContent = document.body.innerHTML.replace(/<\/\w+>/g, (e) => e + '\r\n');
 		document.getElementsByClassName("snowlord-devConsole-container-body-sources-scripts-reload")[0].click();
-		elements.addEventListener('dblclick',function(){
+		document.getElementById('snowlord-devConsole-container-body-elements-container-body').textContent = document.body.innerHTML.replace(/<\/\w+>/g, (e) => e + '\r\n');
+		document.getElementById('snowlord-devConsole-container-body-elements-container-body').addEventListener('dblclick',function(){
 			if(this.contentEditable != 'true'){
 				this.contentEditable = 'true';
 			} else {
 				document.body.innerHTML = this.textContent;
+				document.getElementsByClassName("snowlord-devConsole-container")[0].remove();
+        document.getElementsByClassName("snowlord-devConsole-tooltip-container")[0].remove();
+        document.getElementsByClassName("snowlord-devConsole-injectedCss")[0].remove();
+        document.getElementsByClassName("snowlord-devConsole-injectedJS")[0].remove();
+        snowlord_variables.hijackFunctions = false;
+        snowlord_variables.loaded = false;
+        snowlord_variables.showing = false;
+				(function() { 
+					var x = document.createElement("script"); 
+					x.src = "https://cdn.jsdelivr.net/gh/twarped/devconsole@master/main.js"; 
+					document.head.appendChild(x);
+				})();
+			}
+		})
+		document.getElementById('snowlord-devConsole-container-body-elements-container-head').textContent = document.head.innerHTML.replace(/<\/\w+>/g, (e) => e + '\r\n');
+		document.getElementById('snowlord-devConsole-container-body-elements-container-head').addEventListener('dblclick',function(){
+			if(this.contentEditable != 'true'){
+				this.contentEditable = 'true';
+			} else {
+				document.head.innerHTML = this.textContent;
 				document.getElementsByClassName("snowlord-devConsole-container")[0].remove();
         document.getElementsByClassName("snowlord-devConsole-tooltip-container")[0].remove();
         document.getElementsByClassName("snowlord-devConsole-injectedCss")[0].remove();
