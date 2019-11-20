@@ -26,8 +26,8 @@
 	<div class="snowlord-devConsole-container-body">
 		<div class="snowlord-devConsole-container-body-elements hidden">
 			<h3 style="border-bottom: 2px solid #000;">Elements</h3>
-            <div ondblclick"if(this.contentEditable != "true"){}else{}" class="snowlord-devConsole-container-body-elements-container" style="white-space: pre; width: 100%; height: 200px; overflow: scroll;">
-            </div>
+            <div class="snowlord-devConsole-container-body-elements-container" style="white-space: pre; width: 100%; height: 200px; overflow: scroll;">							
+						</div>
 		</div>
 		
 		<div class="snowlord-devConsole-container-body-console hidden">
@@ -70,14 +70,15 @@
 				</div>
 				
 				<div class="snowlord-devConsole-container-body-sources-scripts-preview" style="float: left; width: 40 %; background-color: #bababa;">
-					<iframe class="snowlord-devConsole-container-body-sources-scripts-preview-frame" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+					<iframe class="snowlord-devConsole-container-body-sources-scripts-preview-frame" float="left" width="100%" height="160px" frameborder="0" scrolling="yes"></iframe>
 				</div>
 			</div>
 		</div>
 		
 		<div class="snowlord-devConsole-container-body-tools hidden">
 			<h3 style="border-bottom: 2px solid #000;">Tools</h3>
-            <h4>Local Storage</h4><div id="snowlord-devConsole-localStorage" style="overflow-y:scroll;height:150px"></div>
+            <h4>Local Storage</h4><div id="snowlord-devConsole-localStorage" style="overflow-y:scroll;height:150px">
+            </div>
 		</div>
 		
 		<div class="snowlord-devConsole-container-body-settings hidden">
@@ -282,14 +283,14 @@
 	
 	.snowlord-devConsole-container {
 		box-shaddow: 0 2px 30px 0 rgba(0, 0, 60, 0.045), 0px 1px 3px 0 rgba(0, 0, 80, 0.03);
-		animation: 1s ease-out 0s 1 slideUp;
+	  
 		background-color: #f9f9f9;
 		z-index: 9999999999999999;
 		vertical-align: baseline;
 		flex-direction: column;
 		box-sizing: border-box;
 		transition: 0.2s;
-		position: fixed;
+		position: sticky;
 		height: 300px;
 		display: flex;
 		width: 100%;
@@ -348,13 +349,12 @@
 		<span id="snowlord-devConsole-tooltip-idType" style="color:orange;"></span>
 	</div>
 `.trim();
-
     var injectedHtml = document.createElement("div");
     injectedHtml.classList.add("snowlord-devConsole-container");
     injectedHtml.classList.add("showing");
     injectedHtml.innerHTML = html;
     document.getElementsByTagName("body")[0] ? document.getElementsByTagName("body")[0].appendChild(injectedHtml) : document.documentElement.appendChild(injectedHtml);
-    var consoleContainer = document.getElementsByClassName("snowlord-devConsole-container showing")[0];
+		var consoleContainer = document.getElementsByClassName("snowlord-devConsole-container showing")[0];
 
     var injectedTooltip = document.createElement("div");
     injectedTooltip.classList.add("snowlord-devConsole-tooltip-container");
@@ -373,43 +373,21 @@
     injectedJS.classList.add("snowlord-devConsole-injectedJS");
     document.head ? document.head.appendChild(injectedJS) : document.body.appendChild(injectedJS);
 
-    /*function highlightJSON(json) {
-        if (typeof json != 'string') {
-            json = JSON.stringify(json, undefined, 2);
-        }
-        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-            var cls = 'number';
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    cls = 'key';
-                } else {
-                    cls = 'string';
-                }
-            } else if (/true|false/.test(match)) {
-                cls = 'boolean';
-            } else if (/null/.test(match)) {
-                cls = 'null';
-            }
-            return '<span class="' + cls + '">' + match + '</span>';
-        });
-    }
-	document.getElementById('snowlord-devConsole-localStorage').innerHTML = highlightJSON(localStorage);
-*/
 for(var i = 0;i<localStorage.length;i++){
-	document.getElementById('snowlord-devConsole-localStorage').innerHTML += "key:"+`<div id="localstoragekey">`+localStorage.key(i)+`</div><br><div id="localstoragevalue" style="word-wrap:break-word;background-color:yellow;">` + localStorage.getItem(localStorage.key(i))+`</div>`;
+	document.getElementById('snowlord-devConsole-localStorage').innerHTML += `<div class="localstoragecontainer"> key: <div id="localstoragekey">`+localStorage.key(i)+`</div><br>value:<div id="localstoragevalue" style="word-wrap:break-word;background-color:yellow;">` + localStorage.getItem(localStorage.key(i))+`</div></div><br>`;
 }
 document.addEventListener("dblclick",function(e){
 var t = e.target
 if(t.id == "localstoragevalue"){
 if(t.contentEditable != "true"){
+var ls = t.textContent
 t.contentEditable = "true";
 } else{
+localStorage.setItem(t.parentNode.querySelector('#localstoragekey').textContent,t.textContent)
 t.contentEditable = "false";
-localStorage.setItem(document.querySelector('#localstoragekey')[t].textContent,t.textContent);
 }
 }
-})
+});
     var consoleInput = document.getElementById("snowlord-devConsole-container-body-console-input");
     consoleInput.addEventListener("keydown", function (e) {
         if (e.keyCode == 76 && e.ctrlKey && !e.altKey && !e.shiftKey && snowlord_variables.loaded) {
@@ -578,7 +556,26 @@ Local Storage: ${JSON.stringify(localStorage)}
             main.innerHTML += '<li><a onclick="alert(\'' + document.getElementsByTagName("meta")[i].content + '\');">' + (document.getElementsByTagName("meta")[i].name || document.getElementsByTagName("meta").property) + '</a></li>';
         }
     });
-
-    document.getElementsByClassName("snowlord-devConsole-container-body-sources-scripts-reload")[0].click();
-    document.getElementsByClassName('snowlord-devConsole-container-body-elements-container')[0].textContent = document.body.innerHTML.replace(/<\/\w+>/g, (e) => e + '\r\n');
+		    var elements = document.getElementsByClassName('snowlord-devConsole-container-body-elements-container')[0];
+		elements.textContent = document.body.innerHTML.replace(/<\/\w+>/g, (e) => e + '\r\n');
+		document.getElementsByClassName("snowlord-devConsole-container-body-sources-scripts-reload")[0].click();
+		elements.addEventListener('dblclick',function(){
+			if(this.contentEditable != 'true'){
+				this.contentEditable = 'true';
+			} else {
+				document.body.innerHTML = this.textContent;
+				document.getElementsByClassName("snowlord-devConsole-container")[0].remove();
+        document.getElementsByClassName("snowlord-devConsole-tooltip-container")[0].remove();
+        document.getElementsByClassName("snowlord-devConsole-injectedCss")[0].remove();
+        document.getElementsByClassName("snowlord-devConsole-injectedJS")[0].remove();
+        snowlord_variables.hijackFunctions = false;
+        snowlord_variables.loaded = false;
+        snowlord_variables.showing = false;
+				(function() { 
+					var x = document.createElement("script"); 
+					x.src = "https://cdn.jsdelivr.net/gh/twarped/devconsole@master/main.js"; 
+					document.head.appendChild(x);
+				})();
+			}
+		})
 })();
